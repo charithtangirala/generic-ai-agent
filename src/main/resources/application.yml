@@ -1,0 +1,58 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: generic-ai-agent
+
+# ---------------------------------------------------------------------------
+# Agent LLM configuration.
+#
+# This application is a generic, purpose-agnostic AI agent. It has no
+# hard-coded job description, context, skills, or tools. All of that is
+# defined at *runtime* (see AgentDefinitionService / AgentController) using
+# Markdown, and the underlying chat model is built programmatically via
+# LangChain4j's fluent AiServices builder - not the @AiService/@SystemMessage
+# annotation style.
+#
+# Select which frontier LLM provider backs the agent with AGENT_LLM_PROVIDER.
+# Only the selected provider's env vars need to be set.
+# ---------------------------------------------------------------------------
+agent:
+  llm:
+    provider: ${AGENT_LLM_PROVIDER:anthropic} # anthropic | openai | google-ai-gemini
+
+    anthropic:
+      api-key: ${ANTHROPIC_API_KEY:}
+      model-name: ${ANTHROPIC_MODEL_NAME:claude-opus-5}
+      base-url: ${ANTHROPIC_BASE_URL:}
+      max-tokens: ${ANTHROPIC_MAX_TOKENS:4096}
+      temperature: ${ANTHROPIC_TEMPERATURE:}
+      timeout-seconds: ${ANTHROPIC_TIMEOUT_SECONDS:60}
+      log-requests: ${ANTHROPIC_LOG_REQUESTS:false}
+      log-responses: ${ANTHROPIC_LOG_RESPONSES:false}
+
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      model-name: ${OPENAI_MODEL_NAME:gpt-4o}
+      base-url: ${OPENAI_BASE_URL:}
+      organization-id: ${OPENAI_ORGANIZATION_ID:}
+      max-tokens: ${OPENAI_MAX_TOKENS:4096}
+      temperature: ${OPENAI_TEMPERATURE:}
+      timeout-seconds: ${OPENAI_TIMEOUT_SECONDS:60}
+      log-requests: ${OPENAI_LOG_REQUESTS:false}
+      log-responses: ${OPENAI_LOG_RESPONSES:false}
+
+    google-ai-gemini:
+      api-key: ${GOOGLE_AI_GEMINI_API_KEY:}
+      model-name: ${GOOGLE_AI_GEMINI_MODEL_NAME:gemini-2.5-pro}
+      max-output-tokens: ${GOOGLE_AI_GEMINI_MAX_OUTPUT_TOKENS:4096}
+      temperature: ${GOOGLE_AI_GEMINI_TEMPERATURE:}
+      timeout-seconds: ${GOOGLE_AI_GEMINI_TIMEOUT_SECONDS:60}
+      log-requests-and-responses: ${GOOGLE_AI_GEMINI_LOG:false}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

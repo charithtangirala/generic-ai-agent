@@ -1,0 +1,7 @@
+plugins {
+    // Enables automatic download/provisioning of the Java 26 toolchain
+    // requested in build.gradle if it isn't already installed locally.
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
+}
+
+rootProject.name = 'generic-ai-agent'
